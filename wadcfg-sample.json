@@ -1,0 +1,52 @@
+{
+    "name": "[concat('VMDiagnosticsVmExt','_vmNodeType0Name')]",
+    "properties": {
+        "type": "IaaSDiagnostics",
+        "autoUpgradeMinorVersion": true,
+        "protectedSettings": {
+            "storageAccountName": "[parameters('applicationDiagnosticsStorageAccountName')]",
+            "storageAccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('applicationDiagnosticsStorageAccountName')),'2015-05-01-preview').key1]",
+            "storageAccountEndPoint": "https://core.windows.net/"
+        },
+        "publisher": "Microsoft.Azure.Diagnostics",
+        "settings": {
+            "WadCfg": {
+                "DiagnosticMonitorConfiguration": {
+                    "overallQuotaInMB": "50000",
+                    "EtwProviders": {
+                        "EtwEventSourceProviderConfiguration": [
+                            {
+                                "provider": "Microsoft-ServiceFabric-Actors",
+                                "scheduledTransferKeywordFilter": "1",
+                                "scheduledTransferPeriod": "PT5M",
+                                "DefaultEvents": {
+                                    "eventDestination": "ServiceFabricReliableActorEventTable"
+                                }
+                            },
+                            {
+                                "provider": "Microsoft-ServiceFabric-Services",
+                                "scheduledTransferPeriod": "PT5M",
+                                "DefaultEvents": {
+                                    "eventDestination": "ServiceFabricReliableServiceEventTable"
+                                }
+                            }
+                        ],
+                        "EtwManifestProviderConfiguration": [
+                            {
+                                "provider": "cbd93bc2-71e5-4566-b3a7-595d8eeca6e8",
+                                "scheduledTransferLogLevelFilter": "Information",
+                                "scheduledTransferKeywordFilter": "4611686018427387904",
+                                "scheduledTransferPeriod": "PT5M",
+                                "DefaultEvents": {
+                                    "eventDestination": "ServiceFabricSystemEventTable"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "StorageAccount": "[parameters('applicationDiagnosticsStorageAccountName')]"
+        },
+        "typeHandlerVersion": "1.5"
+    }
+}
