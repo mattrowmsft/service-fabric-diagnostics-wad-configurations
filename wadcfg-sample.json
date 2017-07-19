@@ -13,6 +13,7 @@
             "WadCfg": {
                 "DiagnosticMonitorConfiguration": {
                     "overallQuotaInMB": "50000",
+                    "sinks" : "applicationInsights",
                     "EtwProviders": {
                         "EtwEventSourceProviderConfiguration": [
                             {
@@ -35,15 +36,48 @@
                             {
                                 "provider": "cbd93bc2-71e5-4566-b3a7-595d8eeca6e8",
                                 "scheduledTransferLogLevelFilter": "Information",
-                                "scheduledTransferKeywordFilter": "4611686018427387904",
+                                "scheduledTransferKeywordFilter": "4611686018427387960",
                                 "scheduledTransferPeriod": "PT5M",
                                 "DefaultEvents": {
                                     "eventDestination": "ServiceFabricSystemEventTable"
                                 }
                             }
                         ]
+                    },
+                    "PerformanceCounters": {
+                "scheduledTransferPeriod": "PT1M",
+                "PerformanceCounterConfiguration": [
+                    {
+                        "counterSpecifier": "\\Processor(_Total)\\% Processor Time",
+                        "sampleRate": "PT15S",
+                        "unit": "Percent"
+                    },
+                    {
+                        "counterSpecifier": "\\Processor(_Total)\\% Processor Time",
+                        "sampleRate": "PT15S",
+                        "unit": "Percent"
                     }
+                ]
+            },
+                                "CrashDumps": {
+                "directoryQuotaPercentage": 10,
+                "dumpType": "Mini",
+                "containerName": "ApplicationCrashDumps",
+                "CrashDumpConfiguration": [
+                    {
+                        "processName": "MyServiceHost.exe"
+                    }
+                ]
+            }
+                },
+                "SinksConfig": {
+            "Sink": [
+                {
+                    "name": "applicationInsights",
+                    "ApplicationInsights": "00000000-0000-0000-0000-000000000000"
                 }
+            ]
+        }
             },
             "StorageAccount": "[parameters('applicationDiagnosticsStorageAccountName')]"
         },
