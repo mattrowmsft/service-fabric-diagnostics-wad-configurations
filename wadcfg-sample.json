@@ -58,6 +58,12 @@
                             }
                         ]
                     },
+                    "DockerSources": {
+                        "Stats": {
+                            "enabled": true,
+                            "sampleRate": "PT15S"
+                        }
+                    },
                     "CrashDumps": {
                         "directoryQuotaPercentage": 10,
                         "dumpType": "Mini",
